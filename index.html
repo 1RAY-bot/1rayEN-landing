@@ -1,888 +1,612 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1RAY – Mayan Oracle | Ancient Wisdom, Cyberpunk Soul</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --gold: #c9a03d;
-            --gold-light: #e0c77c;
-            --bronze: #b87333;
-            --stone-dark: #1a1512;
-            --stone: #2a231c;
-            --stone-light: #3e352c;
-            --wood: #4e342e;
-            --white: #ffffff;
-            --gray: #b0a89a;
-            --card-bg: linear-gradient(145deg, rgba(30,26,22,0.95) 0%, rgba(20,16,12,0.98) 50%, rgba(30,26,22,0.95) 100%);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1RAY – Unlock the Code of Your Soul</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            background: #1a1512;
-            color: var(--white);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%231a1512"/><path d="M20 20h160v160H20z" fill="none" stroke="%23322a22" stroke-width="0.8"/><path d="M40 10L160 190M10 40L190 160" stroke="%23322a22" stroke-width="0.4"/><circle cx="50" cy="50" r="8" fill="none" stroke="%23322a22" stroke-width="0.7"/><circle cx="150" cy="150" r="10" fill="none" stroke="%23322a22" stroke-width="0.6"/></svg>');
-            background-size: 300px 300px;
-        }
-        /* Едва заметная кибер-сетка */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            background: linear-gradient(rgba(184,115,51,0.06) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(184,115,51,0.06) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.5) 20%, rgba(0,0,0,0) 70%);
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 
-        #particles-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
+<style>
+:root{
+    --bg:#1A1512;
+    --stone:#241D19;
+    --gold:#C9A03D;
+    --bronze:#B87333;
+    --wood:#4E342E;
+    --text:#ffffff;
+    --text2:#B0A89A;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            position: relative;
-            z-index: 2;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        h1, h2, h3 {
-            font-family: 'Orbitron', 'Rajdhani', sans-serif;
-            font-weight: 700;
-            letter-spacing: 0.03em;
-        }
-        h1 {
-            font-size: clamp(2.4rem, 5vw, 4rem);
-            line-height: 1.2;
-        }
-        h2 {
-            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-        }
-        h3 {
-            font-size: clamp(1.2rem, 2vw, 1.6rem);
-        }
+html{
+    scroll-behavior:smooth;
+}
 
-        .text-gray {
-            color: var(--gray);
-        }
-        .text-gold {
-            color: var(--gold);
-        }
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    line-height:1.7;
+    position:relative;
+}
 
-        /* Карточки из камня с металлическими краями */
-        .stone-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(201,160,61,0.3);
-            border-radius: 8px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(224,199,124,0.1), inset 0 -1px 0 rgba(0,0,0,0.5);
-            backdrop-filter: blur(15px);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .stone-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.08"><path d="M20 20h60v60H20z" fill="none" stroke="%23c9a03d" stroke-width="1"/><path d="M30 30l40 40M70 30L30 70" stroke="%23b87333" stroke-width="0.8"/></svg>') repeat;
-            pointer-events: none;
-        }
-        .stone-card:hover {
-            border-color: rgba(201,160,61,0.7);
-            box-shadow: 0 0 30px rgba(201,160,61,0.3), 0 0 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(224,199,124,0.2);
-            transform: translateY(-4px);
-        }
+/* Background */
 
-        .btn-gold {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 36px;
-            background: linear-gradient(180deg, #c9a03d 0%, #8b6914 30%, #c9a03d 60%, #5c4510 100%);
-            border: 1px solid #8b6914;
-            border-radius: 50px;
-            color: #1a1512;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: 0.05em;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.35s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 25px rgba(201,160,61,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
-        }
-        .btn-gold:hover {
-            background: linear-gradient(180deg, #e0c77c 0%, #a67b1e 30%, #c9a03d 60%, #7a5210 100%);
-            border-color: #c9a03d;
-            box-shadow: 0 0 40px rgba(201,160,61,0.5), 0 0 80px rgba(139,105,20,0.3);
-            transform: translateY(-3px);
-            color: #000;
-        }
-        .btn-wood {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 28px;
-            background: #4e342e;
-            border: 2px solid #6d4c41;
-            border-radius: 50px;
-            color: #c9a03d;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 500;
-            font-size: 0.9rem;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.35s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-        }
-        .btn-wood:hover {
-            background: #5d4037;
-            border-color: #c9a03d;
-            color: #e0c77c;
-            box-shadow: 0 0 20px rgba(201,160,61,0.3);
-            transform: translateY(-2px);
-        }
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+    linear-gradient(rgba(184,115,51,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,115,51,.05) 1px, transparent 1px);
+    background-size:90px 90px;
+    pointer-events:none;
+}
 
-        .section-divider {
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #b87333, #c9a03d, #b87333, transparent);
-            margin: 60px 0;
-        }
-        .mayan-divider {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            margin: 40px 0;
-        }
-        .mayan-divider span {
-            display: block;
-            width: 28px;
-            height: 28px;
-            border: 2px solid #b87333;
-            transform: rotate(45deg);
-            box-shadow: 0 0 8px rgba(184,115,51,0.3);
-            background: rgba(184,115,51,0.05);
-        }
-        .mayan-divider span:nth-child(odd) {
-            border-color: #c9a03d;
-        }
-        .mayan-divider span:nth-child(3) {
-            width: 34px;
-            height: 34px;
-            border-color: #c9a03d;
-            background: rgba(201,160,61,0.1);
-        }
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at top,
+    rgba(201,160,61,.12),
+    transparent 45%);
+    pointer-events:none;
+}
 
-        /* Hero с пирамидой и ночным небом */
-        .hero-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 80px 0 60px;
-            position: relative;
-        }
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
-        }
-        .hero-content {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-        .hero-content h1 {
-            font-family: 'Rajdhani', 'Orbitron', sans-serif;
-            font-weight: 700;
-            color: #e0c77c;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.8), 0 0 0 rgba(201,160,61,0.5);
-            letter-spacing: 0.05em;
-        }
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: var(--gray);
-            max-width: 480px;
-            line-height: 1.7;
-        }
-        .hero-cta-group {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
+.container{
+    width:min(1200px,90%);
+    margin:auto;
+}
 
-        /* Блок с пирамидой, луной и Млечным Путём */
-        .pyramid-sky {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            height: 420px;
-            margin: 0 auto;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 80px rgba(0,0,0,0.5);
-            background: radial-gradient(ellipse at 30% 30%, #1c253b 0%, #0d0f17 70%);
-        }
-        .stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            overflow: hidden;
-        }
-        /* Млечный Путь – множество мелких точек */
-        .milky-way {
-            position: absolute;
-            top: 10%;
-            left: -20%;
-            width: 140%;
-            height: 60%;
-            background: radial-gradient(ellipse at 30% 50%, rgba(255,255,240,0.15) 0%, transparent 60%),
-                        radial-gradient(ellipse at 70% 40%, rgba(200,180,150,0.1) 0%, transparent 50%);
-            transform: rotate(-25deg);
-            filter: blur(25px);
-            opacity: 0.7;
-        }
-        .moon {
-            position: absolute;
-            top: 12%;
-            right: 15%;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #f5f0d7 10%, #d4c9a0 50%, #8b7a5c 90%);
-            box-shadow: 0 0 40px rgba(245,240,215,0.6), 0 0 100px rgba(212,201,160,0.3);
-            z-index: 2;
-        }
-        .moon::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.3) 90%);
-        }
-        /* Пирамида Майя */
-        .pyramid {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 220px;
-            height: 180px;
-            z-index: 3;
-        }
-        .pyramid-base {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 180px;
-            height: 20px;
-            background: linear-gradient(180deg, #4a4238, #2d2922);
-            border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-        }
-        .pyramid-body {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 90px solid transparent;
-            border-right: 90px solid transparent;
-            border-bottom: 140px solid #5e5447;
-            filter: drop-shadow(0 -10px 20px rgba(0,0,0,0.7));
-        }
-        .pyramid-body::after {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: -50px;
-            width: 100px;
-            height: 100px;
-            background: rgba(0,0,0,0.2);
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            transform: rotate(180deg);
-        }
-        .pyramid-steps {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 180px;
-            height: 140px;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.3) 0px, rgba(0,0,0,0.3) 3px, transparent 3px, transparent 20px);
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            opacity: 0.4;
-        }
-        .pyramid-top {
-            position: absolute;
-            bottom: 160px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 16px;
-            height: 16px;
-            background: #c9a03d;
-            box-shadow: 0 0 20px rgba(201,160,61,0.8);
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-        }
+section{
+    padding:100px 0;
+}
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 40px;
-        }
-        .feature-card {
-            padding: 32px 24px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-        }
-        .feature-icon {
-            width: 64px;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(201,160,61,0.25), rgba(184,115,51,0.1));
-            box-shadow: 0 0 15px rgba(201,160,61,0.3);
-        }
-        .feature-card p {
-            color: var(--gray);
-            font-size: 0.95rem;
-        }
+/* Typography */
 
-        .steps-container {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 20px;
-            margin-top: 40px;
-            position: relative;
-            flex-wrap: wrap;
-        }
-        .steps-container::before {
-            content: '';
-            position: absolute;
-            top: 60px;
-            left: 10%;
-            width: 80%;
-            height: 2px;
-            background: repeating-linear-gradient(90deg, #b87333 0, #b87333 8px, transparent 8px, transparent 16px);
-            opacity: 0.5;
-            z-index: 0;
-        }
-        .step-item {
-            flex: 1;
-            min-width: 200px;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-        }
-        .step-number {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 900;
-            background: linear-gradient(145deg, #2a231c, #1a1512);
-            border: 2px solid #b87333;
-            box-shadow: 0 0 20px rgba(184,115,51,0.4), inset 0 2px 0 rgba(201,160,61,0.2);
-            color: #c9a03d;
-        }
-        .step-label {
-            font-weight: 600;
-            color: #e0c77c;
-        }
-        .step-desc {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
+h1,h2,h3{
+    font-family:'Rajdhani',sans-serif;
+    font-weight:700;
+    color:var(--gold);
+}
 
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 40px;
-        }
-        .pricing-card {
-            padding: 32px 24px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .pricing-card.recommended {
-            border: 2px solid #c9a03d !important;
-            box-shadow: 0 0 40px rgba(201,160,61,0.5), 0 0 80px rgba(0,0,0,0.6) !important;
-            transform: scale(1.04);
-            z-index: 3;
-        }
-        .pricing-card.recommended::before {
-            content: '🌟 SACRED KIN';
-            position: absolute;
-            top: -14px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(180deg, #c9a03d, #8b6914);
-            color: #1a1512;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 5px 18px;
-            border-radius: 20px;
-            letter-spacing: 0.06em;
-            box-shadow: 0 0 20px rgba(201,160,61,0.8);
-        }
-        .price {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #c9a03d;
-            text-shadow: 0 0 15px rgba(201,160,61,0.5);
-        }
-        .pricing-card ul {
-            list-style: none;
-            text-align: left;
-            color: var(--gray);
-        }
-        .pricing-card ul li {
-            padding: 5px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .pricing-card ul li::before {
-            content: '◆';
-            color: #c9a03d;
-            font-size: 0.7rem;
-        }
+h1{
+    font-size:72px;
+    line-height:1;
+}
 
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 40px;
-        }
-        .testimonial-card {
-            padding: 28px 22px;
-            position: relative;
-        }
-        .testimonial-card .quote-mark {
-            font-family: 'Orbitron', serif;
-            font-size: 3rem;
-            line-height: 1;
-            color: #c9a03d;
-            opacity: 0.7;
-            margin-bottom: -10px;
-        }
-        .testimonial-author {
-            color: #c9a03d;
-            font-weight: 600;
-            margin-top: 12px;
-        }
+h2{
+    font-size:52px;
+    margin-bottom:25px;
+}
 
-        .site-footer {
-            border-top: 2px solid rgba(184,115,51,0.3);
-            padding: 40px 0 30px;
-            margin-top: 60px;
-            text-align: center;
-        }
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .footer-links a {
-            color: var(--gray);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-        .footer-links a:hover {
-            color: #c9a03d;
-        }
+h3{
+    font-size:28px;
+    margin-bottom:15px;
+}
 
-        @media (max-width: 968px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .pyramid-sky {
-                height: 300px;
-                margin-bottom: 30px;
-            }
-            .hero-content {
-                align-items: center;
-            }
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            .pricing-grid {
-                grid-template-columns: 1fr;
-            }
-            .pricing-card.recommended {
-                transform: scale(1);
-            }
-            .testimonials-grid {
-                grid-template-columns: 1fr;
-            }
-            .steps-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .steps-container::before {
-                display: none;
-            }
-            .step-item {
-                flex-direction: row;
-                text-align: left;
-                width: 100%;
-                max-width: 400px;
-            }
-        }
-    </style>
+p{
+    color:var(--text2);
+}
+
+/* Buttons */
+
+.btn{
+    display:inline-block;
+    padding:18px 36px;
+    border-radius:18px;
+    text-decoration:none;
+    font-weight:700;
+    transition:.3s;
+}
+
+.btn-primary{
+    background:linear-gradient(
+    180deg,
+    #dcb75f,
+    #b87333
+    );
+    color:#2b1d12;
+}
+
+.btn-primary:hover{
+    transform:translateY(-3px);
+}
+
+.btn-secondary{
+    border:1px solid var(--gold);
+    color:var(--gold);
+}
+
+.btn-secondary:hover{
+    background:rgba(201,160,61,.1);
+}
+
+/* Hero */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+}
+
+.hero-content{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:center;
+}
+
+.subtitle{
+    font-size:22px;
+    margin:30px 0 40px;
+    max-width:500px;
+}
+
+/* Pyramid */
+
+.pyramid-box{
+    position:relative;
+    height:600px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.moon{
+    position:absolute;
+    top:50px;
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    background:#fff4d2;
+    box-shadow:0 0 60px rgba(255,244,210,.2);
+}
+
+.stars{
+    position:absolute;
+    inset:0;
+    background:
+    radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 1px);
+    background-size:90px 90px;
+    opacity:.25;
+}
+
+.milkyway{
+    position:absolute;
+    width:140%;
+    height:120px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.08),
+        transparent
+    );
+    transform:rotate(-25deg);
+}
+
+.pyramid{
+    width:420px;
+    height:300px;
+    background:
+    linear-gradient(
+        to right,
+        #4e342e,
+        #8c6a45
+    );
+    clip-path:polygon(
+        50% 0,
+        100% 100%,
+        0 100%
+    );
+    box-shadow:
+    0 0 80px rgba(201,160,61,.1);
+}
+
+/* Cards */
+
+.card-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+}
+
+.card{
+    background:rgba(36,29,25,.8);
+    border:1px solid rgba(201,160,61,.2);
+    padding:35px;
+    border-radius:28px;
+    backdrop-filter:blur(10px);
+}
+
+.card p{
+    margin-top:15px;
+}
+
+/* How it works */
+
+.steps{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.step{
+    flex:1;
+    text-align:center;
+}
+
+.line{
+    flex:1;
+    border-top:1px dashed rgba(201,160,61,.4);
+}
+
+/* Pricing */
+
+.pricing{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+}
+
+.price-card{
+    background:rgba(36,29,25,.9);
+    border:1px solid rgba(201,160,61,.2);
+    border-radius:28px;
+    padding:40px;
+}
+
+.price{
+    font-size:46px;
+    font-weight:700;
+    color:var(--gold);
+    margin:20px 0;
+}
+
+.price-card ul{
+    list-style:none;
+    margin-bottom:35px;
+}
+
+.price-card li{
+    margin-bottom:12px;
+    color:var(--text2);
+}
+
+.recommended{
+    border:2px solid var(--gold);
+    transform:scale(1.05);
+}
+
+/* Testimonials */
+
+.testimonials{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+}
+
+.quote{
+    background:rgba(36,29,25,.85);
+    padding:35px;
+    border-radius:28px;
+    border:1px solid rgba(201,160,61,.2);
+}
+
+/* Footer */
+
+footer{
+    padding:50px 0;
+    border-top:1px solid rgba(201,160,61,.15);
+}
+
+.footer{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.footer a{
+    color:var(--gold);
+    text-decoration:none;
+}
+
+/* Floating particles */
+
+.particle{
+    position:fixed;
+    width:3px;
+    height:3px;
+    background:var(--gold);
+    border-radius:50%;
+    opacity:.4;
+    animation:float 12s linear infinite;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh);
+    }
+    to{
+        transform:translateY(-100vh);
+    }
+}
+
+/* Mobile */
+
+@media(max-width:900px){
+
+.hero-content,
+.card-grid,
+.pricing,
+.testimonials{
+    grid-template-columns:1fr;
+}
+
+.hero-content{
+    text-align:center;
+}
+
+h1{
+    font-size:52px;
+}
+
+.pyramid-box{
+    order:-1;
+    height:450px;
+}
+
+.steps{
+    flex-direction:column;
+}
+
+.line{
+    width:1px;
+    height:60px;
+    border-top:none;
+    border-left:1px dashed rgba(201,160,61,.4);
+}
+
+.recommended{
+    transform:none;
+}
+}
+</style>
 </head>
 <body>
-    <canvas id="particles-canvas"></canvas>
 
-    <!-- HERO -->
-    <section class="hero-section" id="home">
-        <div class="container">
-            <div class="hero-grid">
-                <div class="hero-content">
-                    <h1>Unlock the Code<br>of Your Soul</h1>
-                    <p class="hero-subtitle">
-                        Ancient Mayan wisdom meets AI. Discover your <span style="color:#c9a03d; font-weight:600;">Kin</span>, receive daily forecasts, and walk the path of the stars.
-                    </p>
-                    <div class="hero-cta-group">
-                        <a href="https://t.me/Prophecies_Mayan_bot" target="_blank" rel="noopener" class="btn-gold">
-                            ✦ Start Free Reading
-                        </a>
-                        <a href="#what-is-1ray" class="btn-wood">Enter the Temple ↓</a>
-                    </div>
-                </div>
-                <!-- Пирамида, луна, звёзды -->
-                <div class="pyramid-sky">
-                    <div class="stars" id="stars-container"></div>
-                    <div class="milky-way"></div>
-                    <div class="moon"></div>
-                    <div class="pyramid">
-                        <div class="pyramid-base"></div>
-                        <div class="pyramid-body"></div>
-                        <div class="pyramid-steps"></div>
-                        <div class="pyramid-top"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="hero">
+<div class="container">
+<div class="hero-content">
 
-    <div class="container"><div class="section-divider"></div></div>
+<div>
+<h1>Unlock the Code of Your Soul</h1>
 
-    <!-- WHAT IS 1RAY -->
-    <section id="what-is-1ray">
-        <div class="container">
-            <div style="display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;">
-                <div style="width:90px;height:90px;display:flex;align-items:center;justify-content:center;">
-                    <svg viewBox="0 0 100 100" width="90" height="90">
-                        <rect x="10" y="20" width="8" height="60" rx="2" fill="rgba(201,160,61,0.8)"/>
-                        <rect x="24" y="15" width="5" height="70" rx="1.5" fill="rgba(184,115,51,0.8)"/>
-                        <rect x="35" y="25" width="10" height="50" rx="2" fill="rgba(201,160,61,0.7)"/>
-                        <rect x="51" y="18" width="6" height="64" rx="1.5" fill="rgba(184,115,51,0.7)"/>
-                        <rect x="63" y="22" width="9" height="56" rx="2" fill="rgba(201,160,61,0.8)"/>
-                        <rect x="78" y="28" width="7" height="44" rx="1.5" fill="rgba(184,115,51,0.6)"/>
-                        <path d="M25,18 Q50,-5 75,18" fill="none" stroke="rgba(201,160,61,0.9)" stroke-width="2.5" filter="url(#glow)"/>
-                        <circle cx="50" cy="55" r="4" fill="#fff"/>
-                        <defs><filter id="glow"><feGaussianBlur stdDeviation="2.5"/></filter></defs>
-                    </svg>
-                </div>
-                <div>
-                    <h2 style="color:#c9a03d;">What is 1RAY?</h2>
-                    <p class="text-gray" style="font-size:1.05rem;line-height:1.8;">
-                        <strong style="color:#e0c77c;">1RAY</strong> is your personal Mayan Oracle, awakened by artificial intelligence. Rooted in the sacred <strong>Tzolkin calendar</strong>, it unveils your <span style="color:#c9a03d;">Kin</span> — your cosmic signature, challenges, and daily energies.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+<p class="subtitle">
+Discover your Mayan Kin, receive daily guidance and reveal the hidden patterns shaping your destiny.
+</p>
 
-    <div class="container"><div class="mayan-divider"><span></span><span></span><span></span><span></span><span></span></div></div>
+<a class="btn btn-primary"
+href="https://t.me/Prophecies_Mayan_bot"
+target="_blank">
+Start Free Reading
+</a>
+</div>
 
-    <!-- FEATURES -->
-    <section id="features">
-        <div class="container">
-            <h2 style="text-align:center; color:#c9a03d;">Discover Your Path</h2>
-            <div class="features-grid">
-                <div class="stone-card feature-card">
-                    <div class="feature-icon">☀️</div>
-                    <h3>Daily Forecast</h3>
-                    <p>Receive your personal energy reading each day, aligned with the Tzolkin's 260-day rhythm.</p>
-                </div>
-                <div class="stone-card feature-card">
-                    <div class="feature-icon">🔗</div>
-                    <h3>Compatibility Check</h3>
-                    <p>See how two Kin energies intertwine through ancient Mayan wisdom.</p>
-                </div>
-                <div class="stone-card feature-card">
-                    <div class="feature-icon">👁️</div>
-                    <h3>Oracle Questions</h3>
-                    <p>Ask the Oracle anything. The AI deciphers the glyphs and returns insights from beyond the veil.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="pyramid-box">
+<div class="stars"></div>
+<div class="milkyway"></div>
+<div class="moon"></div>
+<div class="pyramid"></div>
+</div>
 
-    <div class="container"><div class="section-divider"></div></div>
+</div>
+</div>
+</section>
 
-    <!-- HOW IT WORKS -->
-    <section>
-        <div class="container">
-            <h2 style="text-align:center; color:#c9a03d;">How It Works</h2>
-            <div class="steps-container">
-                <div class="step-item">
-                    <div class="step-number">1</div>
-                    <div>
-                        <div class="step-label">Enter Your Birth Date</div>
-                        <p class="step-desc">Input your date of birth into the sacred interface.</p>
-                    </div>
-                </div>
-                <div class="step-item">
-                    <div class="step-number">2</div>
-                    <div>
-                        <div class="step-label">Get Your Kin Profile</div>
-                        <p class="step-desc">Receive your unique Kin — a stone tablet of your cosmic self.</p>
-                    </div>
-                </div>
-                <div class="step-item">
-                    <div class="step-number">3</div>
-                    <div>
-                        <div class="step-label">Receive Daily Guidance</div>
-                        <p class="step-desc">The Oracle speaks to you every morning through the bot.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section>
+<div class="container">
+<h2>What is 1RAY?</h2>
 
-    <div class="container"><div class="section-divider"></div></div>
+<div class="card">
+<h3>Ancient Wisdom for Modern Life</h3>
 
-    <!-- PRICING -->
-    <section id="premium">
-        <div class="container">
-            <h2 style="text-align:center; color:#c9a03d;">Go Beyond the Veil</h2>
-            <div class="pricing-grid">
-                <div class="stone-card pricing-card">
-                    <h3>1 Month</h3>
-                    <div class="price">500 <small style="font-size:1rem;">⭐</small></div>
-                    <ul>
-                        <li>Unlimited Oracle</li><li>Daily forecast</li><li>Basic Kin profile</li>
-                    </ul>
-                    <a href="https://t.me/Prophecies_Mayan_bot" class="btn-wood" style="margin-top:auto;">Upgrade in Bot</a>
-                </div>
-                <div class="stone-card pricing-card recommended">
-                    <h3>3 Months</h3>
-                    <div class="price">1300 <small style="font-size:1rem;">⭐</small></div>
-                    <ul>
-                        <li>Unlimited Oracle</li><li>Diary</li><li>Unlimited forecasts</li><li>Compatibility deep scans</li>
-                    </ul>
-                    <a href="https://t.me/Prophecies_Mayan_bot" class="btn-gold" style="margin-top:auto;">Upgrade in Bot</a>
-                </div>
-                <div class="stone-card pricing-card">
-                    <h3>6 Months</h3>
-                    <div class="price">2500 <small style="font-size:1rem;">⭐</small></div>
-                    <ul>
-                        <li>Unlimited Oracle</li><li>Diary</li><li>Unlimited forecasts</li><li>Priority AI responses</li>
-                    </ul>
-                    <a href="https://t.me/Prophecies_Mayan_bot" class="btn-wood" style="margin-top:auto;">Upgrade in Bot</a>
-                </div>
-            </div>
-        </div>
-    </section>
+<p>
+1RAY is your personal guide based on the sacred Mayan Tzolk'in calendar. Discover your Kin, understand your energy patterns and receive daily guidance.
+</p>
+</div>
+</div>
+</section>
 
-    <div class="container"><div class="mayan-divider"><span></span><span></span><span></span><span></span><span></span></div></div>
+<section>
+<div class="container">
+<h2>Features</h2>
 
-    <!-- TESTIMONIALS -->
-    <section>
-        <div class="container">
-            <h2 style="text-align:center; color:#c9a03d;">Voices from the Temple</h2>
-            <div class="testimonials-grid">
-                <div class="stone-card testimonial-card">
-                    <div class="quote-mark">“</div>
-                    <p>The Kin reading was eerily accurate. It felt like the universe spoke directly to me.</p>
-                    <div class="testimonial-author">— Aria K., Kin 147</div>
-                </div>
-                <div class="stone-card testimonial-card">
-                    <div class="quote-mark">“</div>
-                    <p>1RAY blends ancient stone and AI in a way that feels truly sacred.</p>
-                    <div class="testimonial-author">— Marcus T., Kin 52</div>
-                </div>
-                <div class="stone-card testimonial-card">
-                    <div class="quote-mark">“</div>
-                    <p>Every morning, my forecast is a ritual. It's synchronistic and grounding.</p>
-                    <div class="testimonial-author">— Elena R., Kin 208</div>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="card-grid">
 
-    <div class="container"><div class="section-divider"></div></div>
+<div class="card">
+<h3>Daily Forecast</h3>
+<p>Personalized daily energy readings and insights.</p>
+</div>
 
-    <footer class="site-footer">
-        <div class="container">
-            <div style="display:inline-block;width:36px;height:36px;margin-bottom:12px;">
-                <svg viewBox="0 0 40 40" width="36" height="36">
-                    <circle cx="20" cy="20" r="18" fill="none" stroke="rgba(201,160,61,0.6)" stroke-width="1.5"/>
-                    <circle cx="20" cy="20" r="8" fill="rgba(201,160,61,0.2)" stroke="rgba(201,160,61,0.7)" stroke-width="1.5"/>
-                </svg>
-            </div>
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="mailto:contact@1ray-oracle.com">Contact</a>
-                <a href="https://t.me/Prophecies_Mayan_bot">Telegram Bot</a>
-            </div>
-            <p class="text-gray" style="font-size:0.8rem;">© 2026 1RAY – First Ray of Maya. All rights reserved.</p>
-        </div>
-    </footer>
+<div class="card">
+<h3>Compatibility Check</h3>
+<p>Explore relationships through Mayan archetypes.</p>
+</div>
 
-    <script>
-        (function() {
-            // Звёзды внутри блока с пирамидой
-            const starsContainer = document.getElementById('stars-container');
-            if (starsContainer) {
-                for (let i = 0; i < 150; i++) {
-                    const star = document.createElement('div');
-                    star.style.position = 'absolute';
-                    star.style.left = Math.random() * 100 + '%';
-                    star.style.top = Math.random() * 80 + '%';
-                    const size = Math.random() * 2.5 + 0.8;
-                    star.style.width = size + 'px';
-                    star.style.height = size + 'px';
-                    star.style.background = '#fff';
-                    star.style.borderRadius = '50%';
-                    star.style.opacity = Math.random() * 0.7 + 0.2;
-                    star.style.boxShadow = '0 0 ' + (size*2) + 'px rgba(255,255,240,0.4)';
-                    starsContainer.appendChild(star);
-                }
-            }
+<div class="card">
+<h3>Oracle Questions</h3>
+<p>Ask meaningful questions and receive symbolic guidance.</p>
+</div>
 
-            // Частицы по всей странице (золотая пыль)
-            const canvas = document.getElementById('particles-canvas');
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            resizeCanvas();
-            window.addEventListener('resize', () => {
-                resizeCanvas();
-                initParticles();
-            });
+</div>
+</div>
+</section>
 
-            function initParticles() {
-                particles = [];
-                for (let i = 0; i < 70; i++) {
-                    particles.push({
-                        x: Math.random() * canvas.width,
-                        y: Math.random() * canvas.height,
-                        radius: Math.random() * 2 + 0.6,
-                        color: ['#c9a03d','#b87333','#8b6914','#c9a03d'][Math.floor(Math.random()*4)],
-                        speedX: (Math.random() - 0.5) * 0.2,
-                        speedY: -(Math.random() * 0.3 + 0.1),
-                        opacity: Math.random() * 0.5 + 0.2
-                    });
-                }
-            }
-            initParticles();
+<section>
+<div class="container">
 
-            function drawParticles() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(p => {
-                    p.x += p.speedX;
-                    p.y += p.speedY;
-                    if (p.y < -20) p.y = canvas.height + 20;
-                    if (p.y > canvas.height + 20) p.y = -20;
-                    if (p.x < -20) p.x = canvas.width + 20;
-                    if (p.x > canvas.width + 20) p.x = -20;
-                    const pulse = Math.sin(Date.now() * 0.01 + p.x * 0.01) * 0.2 + 0.8;
-                    const opacity = p.opacity * pulse;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
-                    ctx.fillStyle = `rgba(201,160,61,${opacity})`;
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius*3, 0, Math.PI*2);
-                    const grad = ctx.createRadialGradient(p.x,p.y,p.radius*0.5,p.x,p.y,p.radius*3);
-                    grad.addColorStop(0, `rgba(201,160,61,${opacity*0.4})`);
-                    grad.addColorStop(1, 'rgba(0,0,0,0)');
-                    ctx.fillStyle = grad;
-                    ctx.fill();
-                });
-                requestAnimationFrame(drawParticles);
-            }
-            drawParticles();
+<h2>How It Works</h2>
 
-            document.querySelectorAll('a[href^="#"]').forEach(a => {
-                a.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href === '#') return;
-                    e.preventDefault();
-                    document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
-                });
-            });
-        })();
-    </script>
+<div class="steps">
+
+<div class="step">
+<h3>1</h3>
+<p>Enter Birth Date</p>
+</div>
+
+<div class="line"></div>
+
+<div class="step">
+<h3>2</h3>
+<p>Get Your Kin</p>
+</div>
+
+<div class="line"></div>
+
+<div class="step">
+<h3>3</h3>
+<p>Receive Guidance</p>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<section>
+<div class="container">
+
+<h2>Premium Plans</h2>
+
+<div class="pricing">
+
+<div class="price-card">
+<h3>1 Month</h3>
+<div class="price">500 ⭐</div>
+
+<ul>
+<li>Daily Forecasts</li>
+<li>Compatibility</li>
+<li>Oracle Access</li>
+</ul>
+
+<a class="btn btn-secondary"
+href="https://t.me/Prophecies_Mayan_bot">
+Upgrade in Bot
+</a>
+
+</div>
+
+<div class="price-card recommended">
+<h3>3 Months</h3>
+<div class="price">1300 ⭐</div>
+
+<ul>
+<li>Everything Included</li>
+<li>Priority Updates</li>
+<li>Best Value</li>
+</ul>
+
+<a class="btn btn-primary"
+href="https://t.me/Prophecies_Mayan_bot">
+Upgrade in Bot
+</a>
+
+</div>
+
+<div class="price-card">
+<h3>6 Months</h3>
+<div class="price">2500 ⭐</div>
+
+<ul>
+<li>Full Access</li>
+<li>Long-Term Guidance</li>
+<li>Maximum Savings</li>
+</ul>
+
+<a class="btn btn-secondary"
+href="https://t.me/Prophecies_Mayan_bot">
+Upgrade in Bot
+</a>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+<section>
+<div class="container">
+
+<h2>Testimonials</h2>
+
+<div class="testimonials">
+
+<div class="quote">
+"The readings feel surprisingly personal and meaningful."
+</div>
+
+<div class="quote">
+"I discovered patterns that kept repeating in my life."
+</div>
+
+<div class="quote">
+"A beautiful mix of spirituality and self-reflection."
+</div>
+
+</div>
+
+</div>
+</section>
+
+<footer>
+<div class="container">
+<div class="footer">
+
+<div>© 2026 1RAY</div>
+
+<div>
+<a href="#">Privacy Policy</a>
+</div>
+
+<div>
+<a href="https://t.me/Prophecies_Mayan_bot">
+Telegram
+</a>
+</div>
+
+</div>
+</div>
+</footer>
+
+<script>
+for(let i=0;i<25;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*100+'%';
+    p.style.animationDuration=
+    (8+Math.random()*12)+'s';
+    p.style.animationDelay=
+    Math.random()*10+'s';
+    document.body.appendChild(p);
+}
+</script>
+
 </body>
 </html>
+```
